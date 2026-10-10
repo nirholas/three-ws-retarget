@@ -57,7 +57,7 @@
 		"three": ">=0.150.0"
 	},
 	"devDependencies": {
-		"esbuild": "^0.27.7"
+		"esbuild": "^0.28.1"
 	},
 	"engines": {
 		"node": ">=18"
