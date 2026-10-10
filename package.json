@@ -1,0 +1,68 @@
+{
+	"name": "@three-ws/retarget",
+	"version": "0.1.2",
+	"description": "Retarget animations onto any humanoid GLB. Canonicalizes bone names from Mixamo, Avaturn, VRM/VRoid, Daz/Genesis, MakeHuman, Unreal, and Blender rigs onto one canonical skeleton, retargets clips with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no rig ever freezes in a T-pose.",
+	"keywords": [
+		"three.js",
+		"animation",
+		"retargeting",
+		"retarget",
+		"humanoid",
+		"rig",
+		"skeleton",
+		"bone-mapping",
+		"mixamo",
+		"vrm",
+		"vroid",
+		"avaturn",
+		"gltf",
+		"glb",
+		"avatar",
+		"3d",
+		"ai-agents",
+		"three.ws"
+	],
+	"author": "three.ws <support@three.ws> (https://three.ws)",
+	"license": "Apache-2.0",
+	"homepage": "https://nirholas.github.io/three-ws-retarget/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nirholas/three-ws-retarget.git"
+	},
+	"bugs": {
+		"url": "https://github.com/nirholas/three-ws-retarget/issues"
+	},
+	"type": "module",
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"exports": {
+		".": {
+			"import": "./dist/index.mjs",
+			"default": "./dist/index.mjs"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"sideEffects": false,
+	"scripts": {
+		"build": "node build.mjs",
+		"pretest": "npm run build",
+		"test": "node --test test/*.test.mjs",
+		"prepublishOnly": "npm run build && npm test"
+	},
+	"peerDependencies": {
+		"three": ">=0.150.0"
+	},
+	"devDependencies": {
+		"esbuild": "^0.27.7"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}
