@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@three-ws/retarget: Retarget animations onto any humanoid GLB</title>
+<meta name="description" content="Retarget animations onto any humanoid GLB. Canonicalizes bone names from Mixamo, Avaturn, VRM/VRoid, Daz/Genesis, MakeHuman, Unreal, and Blender rigs onto one canonical skeleton, retargets clips with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no rig ever...">
+<link rel="canonical" href="https://nirholas.github.io/three-ws-retarget/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="three.ws">
+<meta property="og:title" content="@three-ws/retarget">
+<meta property="og:description" content="Retarget animations onto any humanoid GLB. Canonicalizes bone names from Mixamo, Avaturn, VRM/VRoid, Daz/Genesis, MakeHuman, Unreal, and Blender rigs onto one canonical skeleton, retargets clips with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no rig ever...">
+<meta property="og:url" content="https://nirholas.github.io/three-ws-retarget/">
+<meta property="og:image" content="https://nirholas.github.io/three-ws-retarget/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@three-ws/retarget">
+<meta name="twitter:description" content="Retarget animations onto any humanoid GLB. Canonicalizes bone names from Mixamo, Avaturn, VRM/VRoid, Daz/Genesis, MakeHuman, Unreal, and Blender rigs onto one canonical skeleton, retargets clips with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no rig ever...">
+<meta name="twitter:image" content="https://nirholas.github.io/three-ws-retarget/og.png">
+<meta name="keywords" content="three.js, animation, retargeting, retarget, humanoid, rig, skeleton, bone-mapping, mixamo, vrm, vroid, avaturn, gltf, glb, avatar, 3d, ai-agents, three.ws">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="https://three.ws/three-ws-mcp-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"@three-ws/retarget","description":"Retarget animations onto any humanoid GLB. Canonicalizes bone names from Mixamo, Avaturn, VRM/VRoid, Daz/Genesis, MakeHuman, Unreal, and Blender rigs onto one canonical skeleton, retargets clips with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no rig ever...","codeRepository":"https://github.com/nirholas/three-ws-retarget","programmingLanguage":"JavaScript","license":"https://spdx.org/licenses/Apache-2.0.html","version":"0.1.2","url":"https://nirholas.github.io/three-ws-retarget/","author":{"@type":"Organization","name":"three.ws","url":"https://three.ws"},"keywords":"three.js, animation, retargeting, retarget, humanoid, rig, skeleton, bone-mapping, mixamo, vrm, vroid, avaturn, gltf, glb, avatar, 3d, ai-agents, three.ws"}</script>
+<style>:root{--bg:#fff;--fg:#111418;--mut:#586069;--line:#e3e6ea;--acc:#2563eb;--code:#f4f6f8;--card:#fafbfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0d10;--fg:#e8eaed;--mut:#9aa3ad;--line:#232830;--acc:#6ea0ff;--code:#14181d;--card:#10141a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+.bar nav{margin-left:auto;display:flex;gap:16px;font-size:14px}
+.bar nav a{color:var(--mut);text-decoration:none;transition:color .15s}.bar nav a:hover{color:var(--fg)}
+.hero{max-width:1100px;margin:0 auto;padding:48px 16px 24px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:70ch;font-size:18px;margin:0 0 24px}
+.install{display:flex;align-items:center;gap:8px;max-width:620px;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px}
+.install code{flex:1;overflow-x:auto;white-space:nowrap;font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.install button{border:0;background:var(--acc);color:#fff;border-radius:7px;padding:8px 14px;font:600 13px system-ui;cursor:pointer;transition:transform .12s,opacity .12s}
+.install button:hover{opacity:.9}.install button:active{transform:scale(.96)}
+.cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cta a{padding:9px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--fg);transition:border-color .15s,transform .15s}
+.cta a:hover{border-color:var(--acc);transform:translateY(-1px)}.cta a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layout{max-width:1100px;margin:0 auto;padding:8px 16px 64px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:76px;align-self:start;font-size:14px;border-left:1px solid var(--line);padding-left:16px}
+.toc p{margin:0 0 8px;font-weight:700;color:var(--mut);text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:6px 0}.toc a{color:var(--mut);text-decoration:none}.toc a:hover{color:var(--fg)}
+main{min-width:0;overflow-wrap:anywhere}main pre code{overflow-wrap:normal}main img{max-width:100%;height:auto}
+main h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+.anchor{margin-left:-1.1em;padding-right:.4em;text-decoration:none;opacity:0;color:var(--mut)}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{font:0.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.15em .35em;border-radius:5px}pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}th{background:var(--card)}
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid var(--line);color:var(--mut)}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.foot-in{max-width:1100px;margin:0 auto;padding:24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="https://nirholas.github.io/three-ws-retarget/">@three-ws/retarget</a>
+<nav aria-label="Project links"><a href="https://github.com/nirholas/three-ws-retarget">GitHub</a><a href="https://www.npmjs.com/package/@three-ws/retarget">npm</a><a href="llms.txt">llms.txt</a><a href="https://three.ws">three.ws</a></nav>
+</div></header>
+<section class="hero">
+<h1>@three-ws/retarget</h1>
+<p>Retarget animations onto any humanoid GLB. Canonicalizes bone names from Mixamo, Avaturn, VRM/VRoid, Daz/Genesis, MakeHuman, Unreal, and Blender rigs onto one canonical skeleton, retargets clips with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no rig ever...</p>
+<div class="install" role="group" aria-label="Install command"><code>npm install @three-ws/retarget</code><button type="button" data-copy="npm install @three-ws/retarget">Copy</button></div>
+<div class="cta"><a class="pri" href="https://github.com/nirholas/three-ws-retarget">View on GitHub</a><a href="https://github.com/nirholas/three-ws-retarget/stargazers">Star the repo</a></div>
+</section>
+<div class="layout">
+<main id="content"><h1>@three-ws/retarget</h1>
+<blockquote>
+<p><strong>Retarget animations onto any humanoid GLB.</strong> One package that maps any rig&#39;s bone names onto a canonical skeleton, retargets clips onto it with rest-pose and hip-axis correction, and drives them with a crossfading runtime, so no humanoid ever freezes in a T-pose.</p>
+</blockquote>
+<p>This is the animation engine behind every avatar on <a href="https://three.ws">three.ws</a>: the same code that lets <a href="https://www.npmjs.com/package/@three-ws/walk"><code>@three-ws/walk</code></a>, <a href="https://www.npmjs.com/package/@three-ws/tour"><code>@three-ws/tour</code></a>, and the platform&#39;s viewers animate a GLB from <strong>any</strong> source without a curated rig allowlist. Extracted here so you can use it with plain Three.js.</p>
+<p><strong>Rig conventions it understands out of the box:</strong> Mixamo (<code>mixamorig:LeftArm</code>), Avaturn / Wolf3D, VRM 0.x / VRoid (<code>J_Bip_L_UpperArm</code>), VRM 1.0, Daz/Genesis, MakeHuman, Unreal mannequin, HumanIK/Maya, Blender <code>.L</code>/<code>.R</code>, bare <code>shoulderL</code>-style names, and casing/separator variants of all of them. A rig that genuinely isn&#39;t a skinned humanoid is detected and refused cleanly, never half-animated.</p>
+<hr>
+<h2 id="install"><a class="anchor" href="#install" aria-label="Link to this section">#</a>Install</h2>
+<pre><code class="language-bash">npm install @three-ws/retarget three
+</code></pre>
+<p><code>three</code> is a peer dependency (&gt;= 0.150).</p>
+<h2 id="quick-start-play-a-clip-on-a-rig-it-was-never-made-for"><a class="anchor" href="#quick-start-play-a-clip-on-a-rig-it-was-never-made-for" aria-label="Link to this section">#</a>Quick start: play a clip on a rig it was never made for</h2>
+<pre><code class="language-js">import { AnimationMixer } from &#39;three&#39;;
+import { GLTFLoader } from &#39;three/addons/loaders/GLTFLoader.js&#39;;
+import { MeshoptDecoder } from &#39;three/addons/libs/meshopt_decoder.module.js&#39;;
+import { canonicalizeGLBBones, retargetClipToObject, parseClipJSON } from &#39;@three-ws/retarget&#39;;
+
+// 1. Canonicalize the avatar&#39;s bone names (byte-safe GLB rewrite, in memory).
+//    three.ws GLBs are meshopt-compressed, hence the decoder.
+const raw = await fetch(&#39;https://three.ws/avatars/xbot.glb&#39;).then((r) =&gt; r.arrayBuffer());
+const { buffer } = canonicalizeGLBBones(raw);
+const loader = new GLTFLoader();
+loader.setMeshoptDecoder(MeshoptDecoder);
+const gltf = await loader.parseAsync(buffer, &#39;&#39;);
+
+// 2. Retarget a canonical-space clip onto it. Rest-pose (A/T-pose) skew and
+//    hip up-axis differences are corrected automatically.
+const clipJSON = await fetch(&#39;https://three.ws/animations/clips/walk.json&#39;).then((r) =&gt; r.json());
+const clip = parseClipJSON(clipJSON, &#39;walk&#39;);
+const result = retargetClipToObject(clip, gltf.scene);
+// result: { clip, coverage, matched, total, dropped, hipScale, face }
+
+// 3. Play it with your own mixer (result.clip is null below the coverage gate).
+if (result.clip) {
+  const mixer = new AnimationMixer(gltf.scene);
+  mixer.clipAction(result.clip).play();
+}
+</code></pre>
+<p>When bone coverage is below <code>MIN_COVERAGE</code> (50%), the result comes back with <code>clip: null</code> plus the honest <code>coverage</code> / <code>dropped</code> breakdown. That is the &quot;this isn&#39;t a humanoid&quot; gate. Handle it; don&#39;t force-play.</p>
+<h2 id="or-let-the-runtime-drive-everything"><a class="anchor" href="#or-let-the-runtime-drive-everything" aria-label="Link to this section">#</a>Or let the runtime drive everything</h2>
+<p><code>AnimationManager</code> owns the mixer: it loads a clip library from a manifest, retargets per-rig, crossfades between states, layers one-shot overlays (wave, jump) over a base loop (idle, walk), and rejects clips that would leave the character fallen or broken.</p>
+<pre><code class="language-js">import { AnimationManager } from &#39;@three-ws/retarget&#39;;
+
+const manager = new AnimationManager();
+manager.attach(gltf.scene);
+
+if (manager.supportsCanonicalClips()) {
+  manager.setAnimationDefs([
+    { name: &#39;idle&#39;, url: &#39;https://three.ws/animations/clips/idle.json&#39;, loop: true },
+    { name: &#39;walk&#39;, url: &#39;https://three.ws/animations/clips/walk.json&#39;, loop: true },
+    { name: &#39;wave&#39;, url: &#39;https://three.ws/animations/clips/wave.json&#39;, loop: false },
+  ]);
+  await manager.loadAll();
+  manager.crossfadeTo(&#39;idle&#39;, 0.25);
+}
+
+// per frame:
+manager.update(deltaSeconds);
+</code></pre>
+<p>The clip URLs above are real: three.ws serves its shared clip library with open CORS, so the snippet runs as-is. Ship your own clips in production if you need guaranteed availability.</p>
+<h2 id="api-surface"><a class="anchor" href="#api-surface" aria-label="Link to this section">#</a>API surface</h2>
+<p><strong>Canonicalize</strong> (<code>glb-canonicalize</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CANONICAL_BONES</code></td>
+<td>The frozen 52-bone canonical humanoid set</td>
+</tr>
+<tr>
+<td><code>canonicalizeBoneName(name)</code></td>
+<td>One bone name → canonical name (or passthrough)</td>
+</tr>
+<tr>
+<td><code>canonicalizeJointNodes(json)</code></td>
+<td>Rename joints across a parsed glTF JSON tree</td>
+</tr>
+<tr>
+<td><code>canonicalizeArmatureOrientation(json)</code></td>
+<td>Normalize armature up-axis quirks</td>
+</tr>
+<tr>
+<td><code>canonicalizeGLBBones(arrayBuffer)</code></td>
+<td>The whole pipeline on a GLB binary, byte-exact when nothing needs changing</td>
+</tr>
+</tbody></table>
+<p><strong>Retarget</strong> (<code>animation-retarget</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>retargetClipToObject(clip, root, opts?)</code></td>
+<td>Clip → any Object3D hierarchy (most common). Returns <code>{ clip, coverage, matched, total, dropped, hipScale, face }</code>; <code>clip</code> is <code>null</code> below the coverage gate</td>
+</tr>
+<tr>
+<td><code>retargetClipToRig(clip, rig, opts?)</code> / <code>retargetClip(clip, map, opts?)</code></td>
+<td>Lower-level variants when you already hold a rig/node map</td>
+</tr>
+<tr>
+<td><code>canonicalNodeMapFromObject/FromRig</code>, <code>canonicalRestMapFrom…</code>, <code>canonicalWorldRestMapFrom…</code></td>
+<td>Build the bone/rest lookups yourself</td>
+</tr>
+<tr>
+<td><code>hipsParentWorldQuat</code>, <code>hipRestHeight</code>, <code>hipRestLocalHeight</code>, <code>clipHipBaselineY</code></td>
+<td>Hip-space helpers (root motion, height normalization)</td>
+</tr>
+<tr>
+<td><code>scaleClipSpeed(clip, factor)</code>, <code>parseClipJSON(json, name)</code></td>
+<td>Clip utilities</td>
+</tr>
+<tr>
+<td><code>MIN_COVERAGE</code></td>
+<td>The humanoid-coverage gate (0.5)</td>
+</tr>
+</tbody></table>
+<p><strong>Drive</strong> (<code>animation-manager</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AnimationManager</code></td>
+<td>attach/detach, <code>setAnimationDefs</code>, <code>loadAll</code>, <code>crossfadeTo</code>, overlays, <code>supportsCanonicalClips()</code>, fallen-pose guards, <code>update(dt)</code></td>
+</tr>
+<tr>
+<td><code>measureHipsTiltDeg(clip, model, map)</code></td>
+<td>Diagnostic: how far a retargeted clip tilts the hips</td>
+</tr>
+</tbody></table>
+<p><strong>Reference data:</strong> <code>CANONICAL_REST</code> and <code>CANONICAL_REST_WORLD</code> hold the canonical rig&#39;s rest quaternions the corrections are computed against.</p>
+<h2 id="how-it-works"><a class="anchor" href="#how-it-works" aria-label="Link to this section">#</a>How it works</h2>
+<p>Retargeting quality comes from doing the correction in world space: for each bone the engine computes <code>q&#39; = L · q · R</code>, where <code>L</code>/<code>R</code> are derived from the difference between the clip&#39;s canonical rest pose and the target rig&#39;s actual rest pose (so an A-pose character plays T-pose clips without shoulder skew), plus a hip-space fix for rigs whose hips aren&#39;t Y-up. Coverage below 50% of the canonical bones aborts the retarget instead of producing a half-puppet.</p>
+<p>Hit a skeleton convention it doesn&#39;t know? Add the bone-name mapping to the canonicalizer and it works everywhere at once; that&#39;s the design: <strong>map names once, never maintain a rig allowlist.</strong></p>
+<h2 id="related-packages"><a class="anchor" href="#related-packages" aria-label="Link to this section">#</a>Related packages</h2>
+<ul>
+<li><a href="https://www.npmjs.com/package/@three-ws/walk"><code>@three-ws/walk</code></a>: a walking avatar companion for any site, built on this engine</li>
+<li><a href="https://www.npmjs.com/package/@three-ws/tour"><code>@three-ws/tour</code></a>: guided site tours with a walking narrator</li>
+<li><a href="https://www.npmjs.com/package/@three-ws/page-agent"><code>@three-ws/page-agent</code></a>: a docked, talking page narrator</li>
+</ul>
+<h2 id="license"><a class="anchor" href="#license" aria-label="Link to this section">#</a>License</h2>
+<p>Apache-2.0. See <a href="https://github.com/nirholas/three-ws-retarget/blob/main/LICENSE">LICENSE</a>.</p>
+</main>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#install">Install</a></li><li><a href="#quick-start-play-a-clip-on-a-rig-it-was-never-made-for">Quick start: play a clip on a rig it was never made for</a></li><li><a href="#or-let-the-runtime-drive-everything">Or let the runtime drive everything</a></li><li><a href="#api-surface">API surface</a></li><li><a href="#how-it-works">How it works</a></li><li><a href="#related-packages">Related packages</a></li><li><a href="#license">License</a></li></ul></nav>
+</div>
+<footer><div class="foot-in"><span>Apache-2.0 licensed</span><a href="https://github.com/nirholas/three-ws-retarget/issues">Issues</a><a href="https://github.com/nirholas/three-ws-retarget/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/nirholas/three-ws-retarget/security/policy">Security</a><a href="https://three.ws">Part of three.ws</a></div></footer>
+<script>document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');var done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove()}})});</script>
+</body>
+</html>
